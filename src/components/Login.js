@@ -10,7 +10,7 @@ const navigate=useNavigate()
 function handleUser(e){
   e.preventDefault()
 const email=e.target.email.value
-fetch(`https://find-a-motel.herokuapp.com/login/${email}`)
+fetch(`http://localhost:9292/test/${email}`)
 .then(res=>{
  if(!res.ok){
  return navigate("/signup")
