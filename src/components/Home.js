@@ -71,11 +71,7 @@ function Home() {
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/bookings" className="nav-link">
-                Bookings
-              </Link>
-            </li>
+            
             <li className="nav-item">
               <Link to="/signup" className="nav-link">
                 Signup

@@ -1,93 +1,50 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+function Signup() {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
     username: '',
     email: '',
-    password: ''
+    password: '',
   });
 
-  const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch('http://localhost:4567/users/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
     });
+
+    if (response.ok) {
+      const user = await response.json();
+      console.log(user); // This will log the user object in the console
+
+      navigate('/login'); // This will redirect the user to the login page
+    } else {
+      console.error('Unable to create user');
+    }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    fetch('http://localhost:4567/users/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-      .then((response) => response.json())
-      .then(() => navigate('/login'))
-      .catch((error) => console.log(error));
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label htmlFor="firstname" className="form-label">First Name:</label>
-        <input
-          type="text"
-          className="form-control"
-          name="firstname"
-          value={formData.firstname}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="lastname" className="form-label">Last Name:</label>
-        <input
-          type="text"
-          className="form-control"
-          name="lastname"
-          value={formData.lastname}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="username" className="form-label">Username:</label>
-        <input
-          type="text"
-          className="form-control"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label">Email:</label>
-        <input
-          type="email"
-          className="form-control"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="password" className="form-label">Password:</label>
-        <input
-          type="password"
-          className="form-control"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </div>
-      <button type="submit" className="btn btn-primary">Submit</button>
+      <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} />
+      <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} />
+      <input type="text" name="username" value={formData.username} onChange={handleChange} />
+      <input type="email" name="email" value={formData.email} onChange={handleChange} />
+      <input type="password" name="password" value={formData.password} onChange={handleChange} />
+      <button type="submit">Sign up</button>
     </form>
   );
-};
+}
 
 export default Signup;
