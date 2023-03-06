@@ -3,44 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 
 function Login() {
-  const [isOwner, setIsOwner] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); 
-  const [user, setUser] = useState(null);
-
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password
-        
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Invalid email or password");
-        }
-      })
-      .then((data) => {
-        setUser(data);
-        navigate("/rentalservice");
-        // Redirect to home page or some other page
-      })
-      .catch((error) => {
-        setErrorMessage(error.message);
-      });
+    navigate('/rentalservice');
   };
-  
 
   return (
     <Container>
@@ -57,7 +28,9 @@ function Login() {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
             </Form.Group>
-            <Button variant="primary" type="submit">Submit</Button>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
           </Form>
         </Col>
       </Row>
