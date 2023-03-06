@@ -1,7 +1,7 @@
 import React from 'react';
 import RentalList from './RentalList';
 
-function RentalsPage() {
+function BookingPage() {
   return (
     <div>
       <h2>Available Rentals</h2>
@@ -10,4 +10,4 @@ function RentalsPage() {
   );
 }
 
-export default RentalsPage;
+export default BookingPage;

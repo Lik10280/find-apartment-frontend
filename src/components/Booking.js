@@ -56,6 +56,7 @@ function Booking() {
           <p>Name: {owner.name}</p>
           <p>Email: {owner.email}</p>
           <p>Phone: {owner.tel}</p>
+          <button className="btn btn-primary">Leave a review</button>
         </div>
         <div className="col-lg-6">
           <div className="booking-form">
@@ -64,7 +65,10 @@ function Booking() {
                 Booking successful. Redirecting to homepage...
               </div>
             ) : (
-              <BookingForm onSubmit={handleBookingFormSubmit} />
+              <>
+                <img src={rental.image} alt={rental.title} />
+                <BookingForm onSubmit={handleBookingFormSubmit} />
+              </>
             )}
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 
 function Signup() {
   const navigate = useNavigate();
@@ -36,14 +37,36 @@ function Signup() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} />
-      <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} />
-      <input type="text" name="username" value={formData.username} onChange={handleChange} />
-      <input type="email" name="email" value={formData.email} onChange={handleChange} />
-      <input type="password" name="password" value={formData.password} onChange={handleChange} />
-      <button type="submit">Sign up</button>
-    </form>
+    <Form onSubmit={handleSubmit}>
+      <Form.Group controlId="formFirstName">
+        <Form.Label>First Name</Form.Label>
+        <Form.Control type="text" name="firstname" value={formData.firstname} onChange={handleChange} />
+      </Form.Group>
+
+      <Form.Group controlId="formLastName">
+        <Form.Label>Last Name</Form.Label>
+        <Form.Control type="text" name="lastname" value={formData.lastname} onChange={handleChange} />
+      </Form.Group>
+
+      <Form.Group controlId="formUsername">
+        <Form.Label>Username</Form.Label>
+        <Form.Control type="text" name="username" value={formData.username} onChange={handleChange} />
+      </Form.Group>
+
+      <Form.Group controlId="formEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} />
+      </Form.Group>
+
+      <Form.Group controlId="formPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} />
+      </Form.Group>
+
+      <Button variant="primary" type="submit">
+        Sign up
+      </Button>
+    </Form>
   );
 }
 

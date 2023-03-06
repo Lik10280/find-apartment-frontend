@@ -71,6 +71,11 @@ function Home() {
                 Home
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to="/about" className="nav-link">
+                About
+              </Link>
+            </li>
             
             <li className="nav-item">
               <Link to="/signup" className="nav-link">
@@ -117,9 +122,9 @@ function Home() {
             <p className="card-text">{rental.description}</p>
             <div className="d-flex justify-content-between align-items-center">
               <div className="btn-group">
-              <Link to={`/book/${rental.id}`}>Book</Link>
-              <Link to={`/rentals/${rental.id}/reviews`} className="btn btn-primary">
-                  Add Review
+              
+              <Link to={`/book/${rental.id}`} className="btn btn-primary">
+                  View More
               </Link>
               </div>
               <small className="text-muted">{rental.city}</small>
