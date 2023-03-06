@@ -122,12 +122,9 @@ function Home() {
             <div className="d-flex justify-content-between align-items-center">
               <div className="btn-group">
               <Link to={`/book/${rental.id}`}>Book</Link>
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => handleReview(rental.id)}
-                >
-                  Review
-                </button>
+              <Link to={`/rentals/${rental.id}/reviews`} className="btn btn-primary">
+                  Add Review
+              </Link>
               </div>
               <small className="text-muted">{rental.city}</small>
             </div>
