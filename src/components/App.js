@@ -8,6 +8,7 @@ import RentalService from './RentalService';
 import Booking from './Booking';
 import ReviewForm from './ReviewForm';
 import ReviewPage from './ReviewPage';
+import BookingsList from "./BookingsList";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/book/:rentalId" element={<Booking />} />
         <Route path="/rentals/:rentalId/review" element={<ReviewForm />} />
         <Route path="/reviews/:reviewId" element={<ReviewPage />} />
+        <Route path="/bookings" element={<BookingsList />} />
       </Routes>
     </Router>
   );

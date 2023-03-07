@@ -6,11 +6,17 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import React, { useState, useEffect } from 'react';
 import ReviewForm from './ReviewForm';
+import SearchBar from "./SearchBar";
 
 function Home() {
   const [rentals, setRentals] = useState([]);
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
   const [selectedRental, setSelectedRental] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredRentals, setFilteredRentals] = useState([]);
+
+  
+  
 
   const handleReview = (rental) => {
     setSelectedRental(rental);
@@ -39,6 +45,17 @@ function Home() {
       console.error(error);
     }
   };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const filteredRentals = rentals.filter((rental) => {
+      return (
+        rental.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        rental.city.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+    filteredRentals(filteredRentals);
+  };
   
 
   useEffect(() => {
@@ -50,6 +67,18 @@ function Home() {
     fetchRentals();
   }, []);
 
+  
+
+  const getFilteredRentals = () => {
+    return rentals.filter((rental) => {
+      return (
+        rental.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        rental.city.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+  };
+  
+  
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -105,10 +134,26 @@ function Home() {
         <h1>Welcome to Find A Motel</h1>
         <p>Find your perfect place to stay with us.</p>
       </div>
-
-  <div className="container">
-  <h1>Rentals</h1>
-  <div className="row">
+      <div className="container">
+        <h1>Rentals</h1>
+        <form className="form-inline mb-4" onSubmit={(e) => e.preventDefault()}>
+  <input
+    className="form-control mr-sm-2"
+    type="search"
+    placeholder="Search Rentals"
+    aria-label="Search"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+  <button
+    className="btn btn-outline-success my-2 my-sm-0"
+    type="submit"
+    onClick={() => setFilteredRentals(getFilteredRentals())}
+  >
+    Search
+  </button>
+</form>
+<div className="row">
     {rentals.map((rental) => (
       <div className="col-md-4" key={rental.id}>
         <div className="card mb-4 box-shadow">
@@ -134,16 +179,14 @@ function Home() {
       </div>
     ))}
   </div>
-  {reviewFormOpen && (
-    <ReviewForm
-      rentalId={selectedRental}
-      handleReviewSubmit={handleReviewSubmit}
-      setReviewFormOpen={setReviewFormOpen}
-    />
-  )}
-</div>
-
-
+        {reviewFormOpen && (
+          <ReviewForm
+            rentalId={selectedRental}
+            handleReviewSubmit={handleReviewSubmit}
+            setReviewFormOpen={setReviewFormOpen}
+          />
+        )}
+      </div>
     </>
   );
 }

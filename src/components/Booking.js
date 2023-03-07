@@ -8,6 +8,8 @@ function Booking() {
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [rental, setRental] = useState({});
   const [owner, setOwner] = useState({});
+  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState("");
 
   useEffect(() => {
     fetch(`http://localhost:4567/rentals/${id}`)
@@ -21,28 +23,43 @@ function Booking() {
       .then((data) => setOwner(data));
   }, [id]);
 
-  const handleBookingFormSubmit = (bookingData) => {
-    fetch("http://localhost:4567/bookings", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        rental_id: rental.id,
-        start_date: bookingData.startDate,
-        end_date: bookingData.endDate,
-        payment_status: "pending",
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          setBookingSuccess(true);
-          setTimeout(() => {
-            navigate("/");
-          }, 3000);
-        }
-      })
-      .catch((error) => console.log(error));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const bookingData = {
+      start_date: startDate,
+      end_date: endDate,
+      payment_status: "Pending",
+    };
+    try {
+      const response = await fetch(`http://localhost:4567/bookings`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(bookingData),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      console.log(data);
+      navigate('/bookings');
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
+  
+  
+  
+  
+  
+
+  const handleBookNowClick = () => {
+    if (!bookingSuccess) {
+      const bookingForm = document.querySelector(".booking-form");
+      bookingForm.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -57,6 +74,12 @@ function Booking() {
           <p>Email: {owner.email}</p>
           <p>Phone: {owner.tel}</p>
           <button className="btn btn-primary">Leave a review</button>
+          <button
+            className="btn btn-success"
+            onClick={handleBookNowClick}
+          >
+            Book Now
+          </button>
         </div>
         <div className="col-lg-6">
           <div className="booking-form">
@@ -67,7 +90,7 @@ function Booking() {
             ) : (
               <>
                 <img src={rental.image} alt={rental.title} />
-                <BookingForm onSubmit={handleBookingFormSubmit} />
+                <BookingForm onSubmit={handleSubmit} />
               </>
             )}
           </div>

@@ -1,49 +1,79 @@
-import { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
-function BookingForm({ rental, onBookingSubmit }) {
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
 
-  const handleBookingSubmit = (e) => {
-    e.preventDefault();
-    const bookingData = {
-      start_date: startDate,
-      end_date: endDate,
-      rental_id: rental.id,
+function BookingForm({ onSubmit }) {
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const navigate = useNavigate();
+
+
+  const handleBookingFormSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const booking = {
+      start_date: formData.get("startDate"),
+      end_date: formData.get("endDate"),
+      payment_status: "Pending"
     };
-    onBookingSubmit(bookingData);
+    try {
+      const response = await fetch("http://localhost:4567/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(booking)
+      });
+      if (!response.ok) {
+        throw new Error("Booking submission failed.");
+      }
+      navigate("/bookings");
+    } catch (error) {
+      console.error(error);
+    }
   };
+  
+
+  
 
   return (
-    <form onSubmit={handleBookingSubmit}>
+    <form onSubmit={handleBookingFormSubmit}>
       <div className="form-group">
-        <label htmlFor="start_date">Start Date</label>
+        <label htmlFor="startDate">Start Date</label>
         <input
           type="date"
           className="form-control"
-          id="start_date"
+          id="startDate"
           value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          required
+          onChange={(event) => setStartDate(event.target.value)}
         />
       </div>
-
       <div className="form-group">
-        <label htmlFor="end_date">End Date</label>
+        <label htmlFor="endDate">End Date</label>
         <input
           type="date"
           className="form-control"
-          id="end_date"
+          id="endDate"
           value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          required
+          onChange={(event) => setEndDate(event.target.value)}
         />
       </div>
-
+      <div className="form-group">
+        <label htmlFor="paymentStatus">Payment Status</label>
+        <input
+          type="text"
+          className="form-control"
+          id="paymentStatus"
+          value={paymentStatus}
+          onChange={(event) => setPaymentStatus(event.target.value)}
+        />
+      </div>
       <button type="submit" className="btn btn-primary">
-        Book Now
+        Book 
       </button>
     </form>
   );
 }
+
 export default BookingForm;
