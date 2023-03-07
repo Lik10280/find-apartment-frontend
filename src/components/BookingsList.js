@@ -14,7 +14,7 @@ function BookingList() {
 
   return (
     <div className="container">
-      <h1>Booking List</h1>
+      <h1>my bookings</h1>
       <table className="table">
         <thead>
           <tr>

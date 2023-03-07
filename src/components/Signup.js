@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 function Signup() {
   const navigate = useNavigate();
@@ -37,36 +37,46 @@ function Signup() {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formFirstName">
-        <Form.Label>First Name</Form.Label>
-        <Form.Control type="text" name="firstname" value={formData.firstname} onChange={handleChange} />
-      </Form.Group>
+    <Container>
+      <Row className="justify-content-center">
+        <Col xs={12} md={6}>
+          <h2 className="mb-4">Sign up</h2>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formFirstName">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control type="text" name="firstname" value={formData.firstname} onChange={handleChange} />
+            </Form.Group>
 
-      <Form.Group controlId="formLastName">
-        <Form.Label>Last Name</Form.Label>
-        <Form.Control type="text" name="lastname" value={formData.lastname} onChange={handleChange} />
-      </Form.Group>
+            <Form.Group controlId="formLastName">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control type="text" name="lastname" value={formData.lastname} onChange={handleChange} />
+            </Form.Group>
 
-      <Form.Group controlId="formUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control type="text" name="username" value={formData.username} onChange={handleChange} />
-      </Form.Group>
+            <Form.Group controlId="formUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control type="text" name="username" value={formData.username} onChange={handleChange} />
+            </Form.Group>
 
-      <Form.Group controlId="formEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} />
-      </Form.Group>
+            <Form.Group controlId="formEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} />
+            </Form.Group>
 
-      <Form.Group controlId="formPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} />
-      </Form.Group>
+            <Form.Group controlId="formPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} />
+            </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Sign up
-      </Button>
-    </Form>
+            <Button variant="primary" type="submit" className="mr-3">
+              Sign up
+            </Button>
+            <Button variant="secondary" onClick={() => navigate('/login')}>
+              Already have an account? Log in
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
